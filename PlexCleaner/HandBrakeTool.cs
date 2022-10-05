@@ -36,7 +36,7 @@ public class HandBrakeTool : MediaTool
 
     public override bool GetInstalledVersion(out MediaToolInfo mediaToolInfo)
     {
-        // Initialize            
+        // Initialize
         mediaToolInfo = new MediaToolInfo(this);
 
         // Get version
@@ -75,7 +75,7 @@ public class HandBrakeTool : MediaTool
 
     protected override bool GetLatestVersionWindows(out MediaToolInfo mediaToolInfo)
     {
-        // Initialize            
+        // Initialize
         mediaToolInfo = new MediaToolInfo(this);
 
         try
