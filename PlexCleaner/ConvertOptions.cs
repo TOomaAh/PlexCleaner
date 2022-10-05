@@ -11,11 +11,16 @@ public class ConvertOptions
     public int VideoEncodeQuality { get; set; }
     [Required]
     public string AudioEncodeCodec { get; set; } = "";
+    [Required]
+    public bool UseNvidiaGPU { get; set; }
 
     public void SetDefaults()
     {
         EnableH265Encoder = true;
         VideoEncodeQuality = 20;
         AudioEncodeCodec = "ac3";
+        UseNvidiaGPU = false;
     }
 }
+
+

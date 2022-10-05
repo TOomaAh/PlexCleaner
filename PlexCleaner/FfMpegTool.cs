@@ -404,7 +404,7 @@ public class FfMpegTool : MediaTool
     {
         // Use defaults
         return ConvertToMkv(inputName,
-            Program.Config.ConvertOptions.EnableH265Encoder ? H265Codec : H264Codec,
+            GetVideoEncoder(),
             Program.Config.ConvertOptions.VideoEncodeQuality,
             Program.Config.ConvertOptions.AudioEncodeCodec,
             keep,
@@ -446,7 +446,7 @@ public class FfMpegTool : MediaTool
     {
         // Use defaults
         return ConvertToMkv(inputName,
-            Program.Config.ConvertOptions.EnableH265Encoder ? H265Codec : H264Codec,
+            GetVideoEncoder(),
             Program.Config.ConvertOptions.VideoEncodeQuality,
             Program.Config.ConvertOptions.AudioEncodeCodec,
             outputName);
@@ -572,6 +572,20 @@ public class FfMpegTool : MediaTool
         return true;
     }
 
+    private static string GetVideoEncoder()
+    {
+        string videoCodec;
+        if (Program.Config.ConvertOptions.UseNvidiaGPU)
+        {
+            videoCodec = Program.Config.ConvertOptions.EnableH265Encoder ? H265CodecNvenc : H264CodecNvenc;
+        }
+        else
+        {
+            videoCodec = Program.Config.ConvertOptions.EnableH265Encoder ? H265Codec : H264Codec;
+        }
+        return videoCodec;
+    }
+
     private static void DefaultArgs(string inputName, StringBuilder commandline)
     {
         commandline.Append($"{GlobalOptions} ");
@@ -590,8 +604,12 @@ public class FfMpegTool : MediaTool
     }
 
     private const string H264Codec = "libx264";
+    private const string H264CodecNvenc = "h264_nvenc";
     private const string H265Codec = "libx265";
+    private const string H265CodecNvenc = "hevc_nvenc";
     private const string Snippet = "-ss 0 -t 180";
     private const string GlobalOptions = "-analyzeduration 2147483647 -probesize 2147483647";
     private const string OutputOptions = "-max_muxing_queue_size 1024 -abort_on empty_output";
 }
+
+
