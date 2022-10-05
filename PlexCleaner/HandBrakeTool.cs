@@ -150,7 +150,7 @@ public class HandBrakeTool : MediaTool
     {
         // Use defaults
         return ConvertToMkv(inputName,
-            Program.Config.ConvertOptions.EnableH265Encoder ? H265Codec : H264Codec,
+            GetVideoEncoder(),
             Program.Config.ConvertOptions.VideoEncodeQuality,
             Program.Config.ConvertOptions.AudioEncodeCodec,
             outputName);
@@ -178,10 +178,24 @@ public class HandBrakeTool : MediaTool
     {
         // Use defaults
         return DeInterlaceToMkv(inputName,
-            Program.Config.ConvertOptions.EnableH265Encoder ? H265Codec : H264Codec,
+            GetVideoEncoder(),
             Program.Config.ConvertOptions.VideoEncodeQuality,
             outputName,
             includeSubtitles);
+    }
+
+    private static string GetVideoEncoder()
+    {
+        string videoCodec;
+        if (Program.Config.ConvertOptions.UseNvidiaGPU)
+        {
+            videoCodec = Program.Config.ConvertOptions.EnableH265Encoder ? H265CodecNvenc : H264CodecNvenc;
+        }
+        else
+        {
+            videoCodec = Program.Config.ConvertOptions.EnableH265Encoder ? H265Codec : H264Codec;
+        }
+        return videoCodec;
     }
 
     private static void DefaultArgs(string inputName, string outputName, StringBuilder commandline)
@@ -198,6 +212,8 @@ public class HandBrakeTool : MediaTool
     }
 
     private const string H264Codec = "x264";
+    private const string H264CodecNvenc = "nvenc_h264";
     private const string H265Codec = "x265";
+    private const string H265CodecNvenc = "nvenc_h265";
     private const string Snippet = "--start-at seconds:00 --stop-at seconds:180";
 }
