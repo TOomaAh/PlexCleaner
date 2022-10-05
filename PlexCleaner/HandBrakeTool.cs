@@ -186,16 +186,14 @@ public class HandBrakeTool : MediaTool
 
     private static string GetVideoEncoder()
     {
-        string videoCodec;
         if (Program.Config.ConvertOptions.UseNvidiaGPU)
         {
-            videoCodec = Program.Config.ConvertOptions.EnableH265Encoder ? H265CodecNvenc : H264CodecNvenc;
+            return Program.Config.ConvertOptions.EnableH265Encoder ? H265CodecNvenc : H264CodecNvenc;
         }
         else
         {
-            videoCodec = Program.Config.ConvertOptions.EnableH265Encoder ? H265Codec : H264Codec;
+            return Program.Config.ConvertOptions.EnableH265Encoder ? H265Codec : H264Codec;
         }
-        return videoCodec;
     }
 
     private static void DefaultArgs(string inputName, string outputName, StringBuilder commandline)

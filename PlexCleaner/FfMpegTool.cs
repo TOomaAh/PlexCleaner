@@ -52,7 +52,7 @@ public class FfMpegTool : MediaTool
 
     public override bool GetInstalledVersion(out MediaToolInfo mediaToolInfo)
     {
-        // Initialize            
+        // Initialize
         mediaToolInfo = new MediaToolInfo(this);
 
         // Get version
@@ -92,7 +92,7 @@ public class FfMpegTool : MediaTool
 
     protected override bool GetLatestVersionWindows(out MediaToolInfo mediaToolInfo)
     {
-        // Initialize            
+        // Initialize
         mediaToolInfo = new MediaToolInfo(this);
 
         try
@@ -118,7 +118,7 @@ public class FfMpegTool : MediaTool
 
     protected override bool GetLatestVersionLinux(out MediaToolInfo mediaToolInfo)
     {
-        // Initialize            
+        // Initialize
         mediaToolInfo = new MediaToolInfo(this);
 
         try
@@ -574,16 +574,14 @@ public class FfMpegTool : MediaTool
 
     private static string GetVideoEncoder()
     {
-        string videoCodec;
         if (Program.Config.ConvertOptions.UseNvidiaGPU)
         {
-            videoCodec = Program.Config.ConvertOptions.EnableH265Encoder ? H265CodecNvenc : H264CodecNvenc;
+            return Program.Config.ConvertOptions.EnableH265Encoder ? H265CodecNvenc : H264CodecNvenc;
         }
         else
         {
-            videoCodec = Program.Config.ConvertOptions.EnableH265Encoder ? H265Codec : H264Codec;
+            return Program.Config.ConvertOptions.EnableH265Encoder ? H265Codec : H264Codec;
         }
-        return videoCodec;
     }
 
     private static void DefaultArgs(string inputName, StringBuilder commandline)
